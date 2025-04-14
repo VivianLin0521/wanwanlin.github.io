@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Building Analysis Plots</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      max-width: 1000px;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+    .chart {
+      margin: 20px 0;
+    }
+    details {
+      margin-bottom: 30px;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Building Visualizations and Analysis</h1>
+
+  <h2>Plot 1: Building Age vs. Square Footage by Agency</h2>
+  <div id="plot1" class="chart"></div>
+  <details open>
+    <summary><strong>Conclusion for Plot 1</strong></summary>
+    <p>
+      In plot 1, I want to visualize the relationship between the average square footage and average building age of properties owned by various agencies. To prepare the data, I firstly created a new column called "Building Age" by subtracting the "Year Constructed" from the current year 2025, and then grouped the data by "Agency Name" and calculated the mean for both square footage and building age.
+    </p>
+    <p>
+      To make it display my idea correctly, I plotted each point as separated agency by its average values for square footage (x-axis) and building age (y-axis). Furthermore, color is encoded by "Agency Name" to help distinguish between different agencies and circular mark was chosen with a fixed size.
+    </p>
+    <p>
+      Lastly, I also wanted to make the plot a bit more interactive with the user. Hence, I added "tooltip" to display detailed values when hovering over any data point. In addition, I also added the "interactive" method from Altair to allow users to zoom and pan within the plot.
+    </p>
+  </details>
+
+  <h2>Plot 2: Total Square Footage by County</h2>
+  <div id="plot2" class="chart"></div>
+  <details open>
+    <summary><strong>Conclusion for Plot 2</strong></summary>
+    <p>
+      In plot 2, I want to display the total square footage of buildings grouped by county. In this part, I chose a bar chart because it's a clear and straightforward way to compare totals across categories. In addition, there was no major transformation needed for this visualization beyond grouping the data by county and summing the "Square Footage" column. Hence, I solely need to use Altair’s built-in encoding to sort the counties in descending order of square footage.
+    </p>
+    <p>
+      Then, I used color encoding based on "County" and included an interactive opacity condition triggered on mouseover using "add_selection" method. By doing so, it highlights the selected county and fades the others for easy comparison.
+    </p>
+    <p>
+      However, I want to mention that I found out there are too many counties have few total square footage shown in the plot. I might want to plot a plot 3 to categorize them as "Other" county to make the visualization look better.
+    </p>
+  </details>
+
+  <h2>Plot 3: Total Square Footage by County (Grouped)</h2>
+  <div id="plot3" class="chart"></div>
+  <details open>
+    <summary><strong>Conclusion for Plot 3</strong></summary>
+    <p>
+      Plot 3 is pretty much based on Plot 2. The only difference is that I categorized counties with total square footage below 300000 as "Other" to reduce visual clutter. By doing so, it can help emphasize counties with significantly higher building footage.
+    </p>
+    <p>
+      To accomplish my goal, I firstly aggregated the total square footage by county and then applied a conditional transformation where counties with totals below 300000 were renamed as "Other." Such idea was inspired by a technique from STAT207 (Data Science Exploration). Then, I merged the transformed data back into the original dataset to maintain consistency.
+    </p>
+  </details>
+
+  <h2>Conclusion for Interactivity</h2>
+  <details open>
+    <summary><strong>Interaction Summary</strong></summary>
+    <p>
+      In Plot 1, though it doesn't include selection-based interactivity, it still provides users tooltips and basic interaction (pan/zoom) to explain display information without overwhelming the viewers.
+    </p>
+    <p>
+      In Plot 2 and Plot 3, they both include interactivity through Altair’s "selection_single" method and conditional opacity to allow users to hover over individual bars and focus on specific data while dimming others. I believe doing so is super helpful in a dense bar plot condition. This is because while Altair does provide basic pan/zoom by default, this intentional interactivity adds clarity and engagement for viewers trying to compare across categories.
+    </p>
+  </details>
+
+  <script type="text/javascript">
+    const plot1 = 'plot1.json';
+    const plot2 = 'plot2.json';
+    const plot3 = 'plot3.json';
+
+    vegaEmbed('#plot1', plot1, {actions: false});
+    vegaEmbed('#plot2', plot2, {actions: false});
+    vegaEmbed('#plot3', plot3, {actions: false});
+  </script>
+</body>
+</html>
 
